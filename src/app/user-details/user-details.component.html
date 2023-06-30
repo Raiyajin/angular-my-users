@@ -1,0 +1,11 @@
+<div class="mx-8 mt-4 border rounded">
+  <div class="w-full grid grid-cols-6 place-items-center">
+    <img (click)="hideDetails()" class="grey m-4 col-span-1 place-self-start" src="assets/arrow-left-5.svg" width="28" height="28" alt="close details">
+    <div class="w-full mx-4 flex items-center justify-center  col-span-4">
+      <img class="m-2 mt-2 h-12 w-12 rounded-full bg-gray-50 block" [src]="user?.avatar? user?.avatar+'?='+user?.id : 'assets/149071.png'" alt="">
+      <h2 class="ml-2 mr-1 font-semibold inline">{{ user?.username }}</h2>
+    </div>
+    <img (click)="deleteUser()" ngSrc="assets/trash.svg" class="flex items-center justify-end grey m-4 col-span-1 place-self-end" height="20" width="20" alt="delete user">
+  </div>
+  <app-user-form [user]="user" formBtnMsg="Mettre à jour" (onUpdateUser)="updateUser(user)"/>
+</div>

@@ -1,0 +1,13 @@
+<div class="mx-8 mt-4 border rounded grid grid-cols-2">
+  <ul role="list" class="divide-y divide-gray-100 mx-4">
+    <li class="flex justify-between items-center gap-x-6 py-5" *ngFor="let user of users">
+      <app-user-row [user]="user" class="w-full"></app-user-row>
+      <img ngSrc="assets/pencil-square.svg" alt="update user" height="20" width="20" (click)="showUserDetails(user)" />
+    </li>
+  </ul>
+  <app-user-form [hidden]="addUserHidden" (onCreateUser)="createUser($event)"/>
+  <app-user-details [user]="this.selectedUser" [hidden]="userDetailsHidden"
+                    (onDetailsHideEvent)="hideUserDetails()" (onDeleteUser)="deleteUser(this.selectedUser)"
+                    (onUpdateCurrentUser)="updateUser(this.selectedUser)"
+  />
+</div>
