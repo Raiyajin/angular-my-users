@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { FormControl } from "@angular/forms";
 
 import { IUser } from "../@shared/models/IUser";
 import { User } from "../@shared/models/User";
+import { UsersService } from "../@shared/services/users.service";
 
 @Component({
   selector: 'app-user-list',
@@ -10,65 +12,90 @@ import { User } from "../@shared/models/User";
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-  private _usersUrl: string  = "http://localhost:3000/users"
 
   users!: IUser[]
   selectedUser!: IUser;
 
+  userService!: UsersService;
+
   userDetailsHidden: boolean = true;
   addUserHidden: boolean = false;
+  dropdownHidden: boolean = true;
+
+  defaultDropdown: String = 'Prénom';
+
+
+  searchForm = new FormControl<String>('');
 
   constructor(private _httpClient: HttpClient) {
+    this.userService = new UsersService(this._httpClient);
+
   }
 
   ngOnInit() {
-    this._httpClient.get(this._usersUrl)
+
+    this.userService.get()
       .subscribe(usersList => {
 
-          this.users = usersList as IUser[];
-          User.lastId = this.users.length;
+      this.users = usersList;
+      User.lastId = this.users.length;
 
-        });
-      }
+    });
+
+  }
 
   createUser(newUser: IUser) {
-    this._httpClient.post(
-      this._usersUrl,
-      newUser
-    )
+    this.userService.post(newUser)
       .subscribe(data => {
-      console.log(data);
-    })
+        this.users.push(data);
+      })
+
   }
 
   deleteUser(currentUser: IUser) {
-    this._httpClient.delete(
-      this._usersUrl + "/" + currentUser.id,
-    )
+    this.userService.delete(currentUser)
       .subscribe(data => {
-        console.log(data);
-      })
+        this.users.splice(this.users.indexOf(data), 1);
+      });
   }
 
   updateUser(currentUser: IUser) {
-    this._httpClient.put(
-      this._usersUrl + "/" + currentUser.id,
-      currentUser
-    )
+    this.userService.put(currentUser)
       .subscribe(data => {
-        console.log(data);
+        this.users[data.id - 1] = data;
       })
   }
 
-  hideUserDetails() {
-    this.userDetailsHidden = true;
-    this.addUserHidden = false;
+  search() {
+
+    this.searchForm.valueChanges.subscribe(selectedValue => {
+      console.log(selectedValue);
+      this.userService.search(this.defaultDropdown, selectedValue)
+        .subscribe(data => {
+          this.users = data
+        });
+    });
   }
 
+  /**
+   * Hide the user-details component and display the user creation form
+   * @param value whether to hide the value or not
+   */
+  hideUserDetails(value: boolean) {
+    this.userDetailsHidden = value;
+    this.addUserHidden = !value;
+  }
+
+  /**
+   * Hide the user creation form component and display the user-details with the user information
+   * @param user the user which data are displayed on the component
+   */
   showUserDetails(user: IUser) {
-    this.userDetailsHidden = false;
-    this.addUserHidden = true;
+    this.hideUserDetails(false)
     this.selectedUser = user;
   }
 
+  showDropdown() {
+    this.dropdownHidden = !this.dropdownHidden
+  }
 }

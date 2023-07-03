@@ -1,20 +1,20 @@
 {
   "users": [
     {
-      "id": 1,
-      "email": "jose-manuel-singh773@gmx.dev",
-      "firstname": "Jakub",
-      "lastname": "Jónasson",
       "username": "Horst_Bala",
-      "avatar": "https://i.pravatar.cc"
+      "email": "jose-manuel-singh773@gmx.dev",
+      "firstname": "Jakubo",
+      "lastname": "Jónasson",
+      "avatar": "https://i.pravatar.cc",
+      "id": 1
     },
     {
-      "id": 2,
+      "username": "Phonthip_Horáková76",
       "email": "tadashi_khatoon@laposte.info",
       "firstname": "Mpho",
       "lastname": "Ødegård",
-      "username": "Phonthip_Horáková76",
-      "avatar": "https://i.pravatar.cc"
+      "avatar": "https://i.pravatar.cc",
+      "id": 2
     },
     {
       "id": 3,

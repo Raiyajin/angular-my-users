@@ -9,7 +9,6 @@ const routes: Routes = [
   { path: 'users/add', component: UserFormComponent },
   { path: 'users', component: UserListComponent },
   { path: 'users/:id', component: UserDetailsComponent },
-  { path: '**/*', redirectTo: 'users'}
 ];
 
 @NgModule({

@@ -43,4 +43,29 @@ export class UsersService {
     )
 
   }
+
+  search(filter: String, userInfo: String | null) {
+    let filterFormat: String;
+
+    switch (filter) {
+      case 'Prénom': {
+        filterFormat = 'firstname';
+        break;
+      }
+      case 'Nom': {
+        filterFormat = 'lastname';
+        break;
+      }
+      case 'Nom d\'utilisateur': {
+        filterFormat = 'username';
+        break;
+      }
+      default: {
+        filterFormat = 'firstname';
+        break;
+      }
+
+    }
+    return this._httpClient.get<IUser[]>(this._usersUrl + "?" + filterFormat + "_like=" + userInfo);
+  }
 }

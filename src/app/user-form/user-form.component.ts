@@ -47,9 +47,13 @@ export class UserFormComponent {
   @Output() onCreateUser = new EventEmitter<IUser>();
   @Output() onUpdateUser = new EventEmitter<IUser>();
 
+  /**
+   * The submit event that send user's value to user-details for an update event
+   * and create a new with form's value to user-list for a create event
+   */
   submitUser() {
     if (this.editing) {
-      this.onUpdateUser.emit(this.userForm.value as IUser);
+      this.onUpdateUser.emit(this.userForm.value as User);
     } else {
       this.onCreateUser.emit(User.fromPartialUser(this.userForm.value))
     }

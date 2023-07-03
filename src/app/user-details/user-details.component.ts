@@ -31,7 +31,11 @@ export class UserDetailsComponent {
   }
 
   updateUser($event: IUser | null) {
-      this.onUpdateCurrentUser.emit($event);
+    console.log(this.user);
+    if ($event) {
+      $event.id = <number>this.user?.id
+    }
+    this.onUpdateCurrentUser.emit($event);
   }
 
 }
